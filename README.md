@@ -8,12 +8,12 @@ The primary objective of this project was to bridge the gap between theoretical 
 ### 1. Logical Architecture Diagram
 The high-level mapping shows how the virtual endpoint connects securely to our cloud monitoring infrastructure:
 
-![Logical Architecture Diagram](images/image_okuZcq.png)
+<img width="1408" height="768" alt="Logical Architecture Diagram" src="https://github.com/user-attachments/assets/ceb5c1f1-fbee-4641-a8cc-5c021113941c" />
 
 ### 2. Functional Data Flow Diagram
 This overview maps out the exact 7-step network sequence from localized telemetry collection up to incident creation and analyst notification:
 
-![Functional Data Flow Diagram](images/image_7gJXqq.png)
+<img width="925" height="762" alt="High Overview of the Functional Diagram" src="https://github.com/user-attachments/assets/61d18a4e-04b0-413c-bb1b-e7fd795f7e3a" />
 
 ## 🧠 Skills Learned
 - **Cloud Architecture & Resource Allocation:** Provisioning virtual infrastructure, configuring security firewall groups, and tailoring RAM allocations for indexing systems.
@@ -64,8 +64,9 @@ This overview maps out the exact 7-step network sequence from localized telemetr
 ### Step 6: Case Management & Analyst Notification
 - Structured a POST request body inside Shuffle using a baseline JSON schema to pass SIEM alert details and VirusTotal reputation reports directly into TheHive, dynamically generating high-priority incident tickets.
 
-![Shuffle JSON Case Creation Configuration](images/image_y6o1Nx.png)
+<img width="975" height="562" alt="Shuffle_Connect_VirusTotal_To_TheHive_1" src="https://github.com/user-attachments/assets/84c8e942-91b2-4375-90aa-bbf175264ff3" />
 
 - Configured an SMTP mail server action block inside Shuffle to immediately email the on-duty triage analyst team when a new case is generated.
 
-![Shuffle SMTP Email Configuration](images/image_DLkOWc.png)
+
+<img width="1147" height="550" alt="Shuffle_Send_An_Email_1" src="https://github.com/user-attachments/assets/bd4d8d91-e3f4-41c9-98ca-5b2f2a4a0d48" />
