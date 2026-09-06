@@ -1,0 +1,20 @@
+{
+  "__comment1": "Target Context: JSON parameters inside the Shuffle SOAR 'TheHive' node body configuration block.",
+  "__comment2": "Purpose: Formats incoming variables processed via the webhooks and OSINT integrations before dispatching structured POST requests to populate case boards.",
+ 
+
+ "title": "Discovery command",
+  "description": "The command 'whoami' was seen in the logs. Process payload metadata parsed via automated pipeline.",
+  "source": "Wazuh-SIEM",
+  "sourceRef": "$exec.all_fields.id",
+  "type": "Incident",
+  "severity": 3,
+  "tlp": 2,
+  "pap": 2,
+  "flag": false,
+  "status": "New",
+  "tags": [
+    "Insider",
+    "T1033"
+  ]
+}

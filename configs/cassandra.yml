@@ -1,0 +1,91 @@
+#Target Path on Server: /etc/cassandra/cassandra.yaml on MySOC-TheHive
+#Purpose: Updates cluster identity properties, points interfaces toward the public server interface (<IP_Of_MySOC_TheHive_Server>), and defines localized application endpoints.
+
+
+
+
+# ==============================================================================
+# Core Distributed Storage Engine Configuration
+# Path Location: /etc/cassandra/cassandra.yaml
+# Topology Design: Single-Node SOC Database Environment (TheHive Back-end)
+# ==============================================================================
+
+# Custom cluster namespace designation
+cluster_name: 'mysoc'
+
+# System-level token allocation for data distribution (optimized for single-node)
+num_tokens: 16
+
+# Hinted Handoff controls when nodes are down (disabled/optimized for single node)
+hinted_handoff_enabled: true
+max_hint_window_in_ms: 10800000 # 3 hours
+hinted_handoff_throttle_in_kb: 1024
+
+# Authenticator engines (AllowAll is default for labs, switch to Password for Prod)
+authenticator: AllowAllAuthenticator
+authorizer: AllowAllAuthorizer
+role_manager: CassandraRoleManager
+
+# Data file storage paths
+data_file_directories:
+    - /var/lib/cassandra/data
+commitlog_directory: /var/lib/cassandra/commitlog
+saved_caches_directory: /var/lib/cassandra/saved_caches
+hints_directory: /var/lib/cassandra/hints
+
+# Memory allocation limits for Memtables and flushes
+commitlog_sync: periodic
+commitlog_sync_period_in_ms: 10000
+commitlog_segment_size_in_mb: 32
+
+# Multi-node topology parameters configured to link internal server loopbacks
+seed_provider:
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          # Points strictly to the local host footprint for isolated cluster setup
+          - seeds: "<IP_Of_MySOC_TheHive_Server>"
+
+# Concurrent reading and writing processing limits
+concurrent_reads: 8
+concurrent_writes: 16
+concurrent_compactors: 2
+
+# Memory allocation profiles for cache engines
+key_cache_size_in_mb:
+row_cache_size_in_mb: 0
+
+# Network interface context for structural node communications
+# (The interface Cassandra uses to bind its internal communication sockets)
+listen_address: <IP_Of_MySOC_TheHive_Server>
+
+# Network boundary gateway definitions used to handle incoming client calls
+# (The interface or public IP address Cassandra uses to listen for TheHive calls)
+rpc_address: <IP_Of_MySOC_TheHive_Server>
+start_native_transport: true
+native_transport_port: 9042
+
+# Storage internal port maps
+storage_port: 7000
+ssl_storage_port: 7001
+
+# Internode communication settings
+endpoint_snitch: SimpleSnitch
+
+# Internode streaming limits
+stream_throughput_outbound_megabits_per_sec: 200
+
+# Write/Read Request Timeout limits (Prevent timeouts during large SIEM logs bursts)
+read_request_timeout_in_ms: 5000
+write_request_timeout_in_ms: 2000
+cas_contention_timeout_in_ms: 1000
+truncate_timeout_in_ms: 60000
+request_timeout_in_ms: 10000
+
+# Compaction strategy parameters
+incremental_backups: false
+snapshot_before_compaction: false
+auto_snapshot: true
+
+# Column index configuration thresholds
+column_index_size_in_kb: 64
+column_index_cache_size_in_kb: 2

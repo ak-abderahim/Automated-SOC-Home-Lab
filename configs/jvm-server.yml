@@ -1,0 +1,69 @@
+#Target Path on Server: /etc/cassandra/jvm-server.options on MySOC-TheHive
+#Purpose: Hardcodes Java memory configuration bounds to prevent system out-of-memory errors on cost-efficient cloud configurations.
+
+
+
+
+# ==============================================================================
+# JVM Server Memory Profiles for Apache Cassandra
+# Path Location: /etc/cassandra/jvm-server.options
+# ==============================================================================
+
+###########################################################################
+# STARTUP PARAMETERS
+#
+# - All flags defined here will be used by Cassandra to startup the JVM.
+# - One flag should be specified per line.
+# - Lines that do not start with '-' will be ignored.
+# - Only static flags are accepted (no variables or parameters).
+###########################################################################
+
+# -------------------------------------------------------------------------
+# HEAP MEMORY CONFIGURATION
+# -------------------------------------------------------------------------
+# Capping the initial and maximum heap allocations prevents the JVM from 
+# competing for memory and crashing due to Linux OOM (Out Of Memory) errors.
+
+# Locks the initial heap memory allocations at runtime to avoid thrashing
+-Xms4g
+
+# Constrains maximum memory consumption boundaries to fit within host limits
+-Xmx4g
+
+# -------------------------------------------------------------------------
+# GENERAL JVM PERFORMANCE SETTINGS
+# -------------------------------------------------------------------------
+
+# Disable biased locking as it does not benefit Cassandra's concurrent design
+-XX:-UseBiasedLocking
+
+# Ensure the JVM crashes/exits immediately if it runs out of memory,
+# allowing systemd to automatically restart the service safely rather than hanging.
+-XX:+CrashOnOutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
+
+# Enable thread prioritization adjustments
+-XX:+UseThreadPriorities
+
+# Optimize string memory footprints for long-lived indexing metadata
+-XX:+UseStringDeduplication
+
+# -------------------------------------------------------------------------
+# COMPACTION AND GARBAGE COLLECTION ENGINES
+# -------------------------------------------------------------------------
+# Note: For Java 11+, version-specific flags are further processed by 
+# Cassandra using the adjacent file: /etc/cassandra/jvm11-server.options
+# -------------------------------------------------------------------------
+
+# Per-thread stack size limits
+-Xss256k
+
+# Force the JVM to cache network name resolutions permanently to avoid dns drift
+-Dsun.net.inetaddr.ttl=60
+
+# Prevent Remote Method Invocation (RMI) from generating memory leaks
+-Dsun.rmi.dgc.client.gcInterval=3600000
+-Dsun.rmi.dgc.server.gcInterval=3600000
+
+# Prefers IPv4 stack bindings for database cluster socket assignments
+-Djava.net.preferIPv4Stack=true
