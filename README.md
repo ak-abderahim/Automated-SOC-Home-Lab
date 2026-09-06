@@ -70,3 +70,7 @@ This overview maps out the exact 7-step network sequence from localized telemetr
 
 
 <img width="1147" height="550" alt="Shuffle_Send_An_Email_1" src="https://github.com/user-attachments/assets/bd4d8d91-e3f4-41c9-98ca-5b2f2a4a0d48" />
+
+
+
+<a href="https://medium.com/@ak-abderahim/building-an-automated-soc-home-lab-from-telemetry-to-orchestrated-response-14cbad6316e7" target="_blank" rel="noopener noreferrer">Read the full walkthrough here</a>
